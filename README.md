@@ -17,16 +17,16 @@ To add dependencies simply add this section to the tail end of each issue -
 ### Dependencies
 * [ ] #X
 * [ ] #Y
-* [ ] #Z
+* [ ] https://github.com/ORG/REPO/issues/Z
 ```
-Where X, Y, and Z are issue ID's.  We created this handy link to speed up the process -
+Where X, Y, Z are issue ID's.  We created this handy link to speed up the process -
 ```
 https://github.com/YOUR-ORG/YOUR-REPO/issues/new?&body=%23%23%23%20Description%0A%0A%23%23%23%20Acceptance%20Test%0A%0A%23%23%23%20Dependencies%0A%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23
 ```
 Where YOUR-ORG is your organization and YOUR-REPO is your repo.  Yes GitHub provides a a list of issues that have mentioned this one but we can't gaurantee that those mentions are dependencies or something else so we decided to be more explicit.
 
 1. To get this operational first create a [Github auth token](https://help.github.com/articles/creating-an-access-token-for-command-line-use).
-2. With the auth token at hand clone this repo and host it on a web server of your choice. 
+2. With the auth token at hand clone this repo and host it on a web server of your choice.
  * On OSX you can use this little util within the root folder of this project: `ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => 8000, :DocumentRoot => Dir.pwd).start'`
 3. Open the following URL in your web browser (Tested on Chrome & Safari): `http://HOST:PORT/?org=ORG_NAME&repo=REPO`
 where:

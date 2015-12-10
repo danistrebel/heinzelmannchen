@@ -213,7 +213,7 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
             if(d.type === 'users') {
               return d.login;
             } else if(d.type === 'issues') {
-              return "#" + d.number + " - " + d.title;
+              return parseIssueUrl(d.html_url).repo + "#" + d.number + " - " + d.title;
             } else if(d.type === 'milestones') {
               return "M - " + d.title;
             } else if(d.type === 'issues') {
@@ -232,24 +232,45 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
       });
     }
 
-    function findIssueDependencies(issueBody) {
-      function getDependencies(dependenciesSection) {
-        var re = /\* \[ \] \#(\d+).*/g;
-        var issueDependencies = [];
-        var match;
-        while (match = re.exec(dependenciesSection)) {
-          issueDependencies.push({number: match[1]});
-        }
-        return issueDependencies;
+    function parseIssueDependency(url, defaultOrg, defaultRepo) {
+      var re = /\* \[ \] (\#|https:\/\/github\.com\/(.*)\/(.*)\/issues\/)(\d+).*/g;
+      var issueDependencies = [];
+      var match;
+      while (match = re.exec(url)) {
+        var number = match[4];
+        var org = match[2] || defaultOrg;
+        var repo = match[3] || defaultRepo
+        issueDependencies.push("https://github.com/" + org + "/" + repo + "/issues/" + number);
+      }
+      return issueDependencies;
+    }
+
+    function parseIssueUrl(url) {
+      var re = /https:\/\/github\.com\/(.*)\/(.*)\/(issues|pull)\/\d+.*/g;
+      var match = re.exec(url);
+      var org = "???";
+      var repo = "???"
+      if(match) {
+        var org = match[1];
+        var repo = match[2];
       }
 
-      var startDependenciesSection = issueBody.indexOf("# Dependencies");
+      return {org: org, repo: repo};
+    }
+
+    function findIssueDependencies(issue) {
+
+      var parsedIssueUrl = parseIssueUrl(issue.html_url);
+      var issueOrg = parsedIssueUrl.org;
+      var issueRepo = parsedIssueUrl.repo;
+
+      var startDependenciesSection = issue.body.indexOf("# Dependencies");
       if(startDependenciesSection<0) {
         return [];
       } else {
         //TODO improve the regex stuff
-        var dependenciesSection = issueBody.substring(startDependenciesSection);
-        return getDependencies(dependenciesSection);
+        var dependenciesSection = issue.body.substring(startDependenciesSection);
+        return parseIssueDependency(dependenciesSection, issueOrg, issueRepo);
       }
     }
 
@@ -275,22 +296,19 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
           }
           userDependencies.push({user: issue.assignee.id, issue: issue.id});
         }
-
-        var dependentIssuesMeta = findIssueDependencies(issue.body);
-        var depententIssues = dependentIssuesMeta.map(function(dependentIssueMeta) {
-          var urlPrefix = issue.html_url.substring(0, issue.html_url.lastIndexOf("/")+1);
+        var dependentIssues = findIssueDependencies(issue).map(function(dependentIssueUrl) {
           return _.find(issues, function(otherIssue) {
-              return otherIssue.html_url === urlPrefix + dependentIssueMeta.number;
-          }) || dependentIssueMeta;
+              return otherIssue.html_url == dependentIssueUrl;
+            }) || dependentIssueUrl;
         });
-        _.each(depententIssues, function(dependentIssue) {
+        _.each(dependentIssues, function(dependentIssue) {
           if(dependentIssue.id) {
             indicationDependencies.push({
               source: issue.id,
               target: dependentIssue.id
             });
           } else {
-            console.warn("Referenced issue #" + dependentIssue.number + " was not found as referenced in #" + issue.number);
+            console.warn("Referenced issue " + dependentIssue + " was not found as referenced in " + issue.html_url);
           }
         });
       });
