@@ -1,4 +1,4 @@
-require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-config"], function ($, underscore, d3, searchWidget, graphConfig) {
+require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-config", "app/github-api"], function ($, underscore, d3, searchWidget, graphConfig, githubApi) {
   (function() {
 
     var heinzConfig = {};
@@ -31,43 +31,21 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
 
     function setConfig() {
       var queryStrings = getQueryStrings();
-      if(!(queryStrings.repo && queryStrings.org)) {
+      if(!queryStrings.repo) {
         alert("Please fill in all required parameters in the URL.");
-        window.open("/?org=cotiviti&repo=heinzelmannchen&repo=cotiviti-parent","_self",false);
+        window.open("/?repo=cotiviti/heinzelmannchen&repo=cotiviti/cotiviti-parent","_self",false);
       } else {
-        heinzConfig.repos = queryStrings.repo;
-        heinzConfig.org = queryStrings.org[0];
+        heinzConfig.repos = _.map(queryStrings.repo, function(repoString) {
+          var splitted = repoString.split("/");
+          if(!(splitted.length === 2)) {
+            alert("Please provide repo query parameters in the form of: ORG_NAME/REPO_NAME.")
+          }
+          return {
+            org: splitted[0],
+            name: splitted[1]
+          }
+        });
       }
-    }
-
-    function apiURI(projectName) {
-      return "https://api.github.com/repos/" + heinzConfig.org + "/" + projectName + "/issues?per_page=100";
-    }
-
-    //controls remaining pagination loads
-    var remainingPages = {};
-
-    function loadIssuesPage(apiURI, page) {
-
-      var requestUrl = apiURI + (page ? "&page=" + page : "");
-
-      return $.ajax({
-               url: requestUrl ,
-               type: "GET",
-               cache: false,
-               beforeSend: function(xhr){xhr.setRequestHeader('Authorization', 'token ' + heinzConfig.authToken);},
-               success: function(res, status, xhr) {
-                 var pagination = xhr.getResponseHeader("link");
-                 if (pagination && pagination.indexOf('rel="next"') > 0) {
-                    if(!remainingPages[apiURI]) {
-                      remainingPages[apiURI] = 1;
-                    }
-                    remainingPages[apiURI] = remainingPages[apiURI] + 1;
-                 } else if (remainingPages[apiURI]) {
-                   delete remainingPages[apiURI];
-                 }
-               }
-            });
     }
 
     function drawGraph(dependencies) {
@@ -327,26 +305,6 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
       });
     }
 
-    function waitForPromises(issuePromises, paginatedIssues) {
-      Promise.all(issuePromises).then(function() {
-          var issues = _.union(paginatedIssues, _.flatten(arguments));
-          if(_.keys(remainingPages).length === 0) {
-            processIssues(issues);
-          } else {
-            var extendedPromises = _.map(_.pairs(remainingPages), function(pair) { return loadIssuesPage(pair[0], pair[1]); });
-            waitForPromises(extendedPromises, issues);
-          }
-        }, function(err) {
-        console.error(err);
-      });
-    }
-
-    function loadIssues() {
-      //load issues for all repos configured in the config file
-      var issuePromises = _.map(heinzConfig.repos, function(repo) { return loadIssuesPage(apiURI(repo));});
-      waitForPromises(issuePromises, []);
-    }
-
     (function() {
 
       var authIsSet = checkAuth();
@@ -354,7 +312,7 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
       setConfig();
 
       if(authIsSet) {
-        loadIssues();
+        githubApi.loadIssues(heinzConfig, processIssues);
       } else {
         $("#set-access-token").click(function(){
           var token = $("#authtoken").val();
@@ -362,7 +320,8 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
           heinzConfig.authToken = token;
           localStorage.heinzAuth = token;
           $("#issue-visualization").show();
-          loadIssues();
+          debugger;
+          githubApi.loadIssues(heinzConfig, processIssues);
         });
       }
     }());
