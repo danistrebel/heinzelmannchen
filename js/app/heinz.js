@@ -260,6 +260,10 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
 
     function findIssueDependencies(issue) {
 
+      if(!issue.body) {
+        return [];
+      }
+
       var parsedIssueUrl = parseIssueUrl(issue.html_url);
       var issueOrg = parsedIssueUrl.org;
       var issueRepo = parsedIssueUrl.repo;
@@ -338,7 +342,6 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
           heinzConfig.authToken = token;
           localStorage.heinzAuth = token;
           $("#issue-visualization").show();
-          debugger;
           githubApi.loadIssues(heinzConfig, processIssues);
         });
       }
