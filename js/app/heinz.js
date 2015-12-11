@@ -33,7 +33,7 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
       var queryStrings = getQueryStrings();
       if(!queryStrings.repo) {
         alert("Please fill in all required parameters in the URL.");
-        window.open("/?repo=cotiviti/heinzelmannchen&repo=cotiviti/cotiviti-parent","_self",false);
+        window.open("./?repo=cotiviti/heinzelmannchen&repo=cotiviti/cotiviti-parent","_self",false);
       } else {
         heinzConfig.repos = _.map(queryStrings.repo, function(repoString) {
           var splitted = repoString.split("/");
