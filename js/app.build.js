@@ -14,5 +14,5 @@
         d3js: "empty:"
     },
     optimize: "uglify2",
-    fileExclusionRegExp: /^(.*\.md|node_modules|screenShot\.png|\.git.*|\.git)/,
+    fileExclusionRegExp: /^(.*\.md|node_modules|\.git.*|\.git)/,
 })

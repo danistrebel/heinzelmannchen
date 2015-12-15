@@ -1,1 +1,0 @@
-define(["d3js"],function(o){return{color:o.scale.category20(),zoom:o.behavior.zoom()}});

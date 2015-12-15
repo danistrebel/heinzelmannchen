@@ -13,19 +13,22 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
     }
 
     function checkAuth() {
-      if(typeof(Storage) !== "undefined") {
+      var queryStrings = getQueryStrings();
+      if(typeof(Storage) === "undefined") {
+        alert("Sorry, your broser does not support the required HTML5 features.");
+        throw new Error("Unsupported broser!");
+      } else if(queryStrings.access_token) {
+        var token = queryStrings.access_token[0];
+        heinzConfig.authToken = token;
+        localStorage.heinzAuth = token;
+        return true;
+      } else {
         if(localStorage.heinzAuth) {
-          $("#auth-input").hide();
           heinzConfig.authToken = localStorage.heinzAuth;
           return true;
         } else {
-          $("#auth-input").show();
-          $("#issue-visualization").hide();
           return false;
         }
-      } else {
-        alert("Sorry, your broser does not support the required HTML5 features.");
-        throw new Error("Unsupported broser!");
       }
     }
 
@@ -336,14 +339,7 @@ require(["jquery", "underscorejs", "d3js", "app/search-widget", "app/graph-confi
       if(authIsSet) {
         githubApi.loadIssues(heinzConfig, processIssues);
       } else {
-        $("#set-access-token").click(function(){
-          var token = $("#authtoken").val();
-          $("#auth-input").hide();
-          heinzConfig.authToken = token;
-          localStorage.heinzAuth = token;
-          $("#issue-visualization").show();
-          githubApi.loadIssues(heinzConfig, processIssues);
-        });
+        window.open("./login.html","_self",false);
       }
     }());
   }());
