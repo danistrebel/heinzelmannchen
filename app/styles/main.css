@@ -64,3 +64,17 @@ div#auth-input > div {
     -webkit-animation: svg_pulse 2s ease;
     -webkit-animation-iteration-count: infinite;
 }
+
+#labs-branding {
+  color: #333;
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  font-style: oblique;
+}
+
+#labs-branding img {
+  height: 120px;
+  position: relative;
+  top: 20px;
+}
