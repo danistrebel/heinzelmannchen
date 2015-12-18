@@ -78,3 +78,15 @@ div#auth-input > div {
   position: relative;
   top: 20px;
 }
+
+#layout-wrapper {
+  background: url(../images/exampleGraph.png) no-repeat center center fixed;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+
+#layout-wrapper md-whiteframe {
+  background-color: white;
+}

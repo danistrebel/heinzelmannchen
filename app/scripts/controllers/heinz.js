@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heinzelmannchen')
-  .controller('HeinzCtrl', function (GithubApi, $rootScope, IssueData, $routeParams) {
+  .controller('HeinzCtrl', function (GithubApi, $rootScope, IssueData, $routeParams, $location) {
 
     if($routeParams.repo) {
       if( typeof $routeParams.repo === 'string' ) {
@@ -12,6 +12,7 @@ angular.module('heinzelmannchen')
         alert('Your query paramerter contained unexpected data.');
       }
     } else {
+      $location.search('repo', 'cotiviti/heinzelmannchen')
       GithubApi.loadIssues('cotiviti', 'heinzelmannchen');
     }
 
