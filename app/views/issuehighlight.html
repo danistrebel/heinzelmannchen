@@ -5,6 +5,11 @@
       <label>Search Term</label>
       <input ng-model="highlightModel.search" on-enter="searchByTerm()">
     </md-input-container>
+    <div layout="column">
+      <div layout="row" ng-repeat="term in highlightModel.terms" class="search-term-box">
+        <span class="remove" ng-click="removeTermAtIndex($index)">x</span><span>{{term}}</span>
+      </div>
+    </div>
     <div layout="row">
       <md-button class="md-primary md-raised" ng-click="searchByTerm()" ng-disabled="!highlightModel.search">Search</md-button>
       <md-button class="md-raised" ng-click="resetHighlights()">Reset</md-button>

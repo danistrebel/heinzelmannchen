@@ -90,3 +90,13 @@ div#auth-input > div {
 #layout-wrapper md-whiteframe {
   background-color: white;
 }
+
+.search-term-box {
+  margin-bottom: 10px;
+}
+
+.search-term-box .remove {
+  cursor: pointer;
+  color: #00254A;
+  margin-right: 10px;
+}
