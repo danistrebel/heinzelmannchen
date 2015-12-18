@@ -11,4 +11,5 @@ angular.module('heinzelmannchen')
   .constant('graphConfig', {
     color : d3.scale.category20(),
     zoom : d3.behavior.zoom()
-  });
+  })
+  .constant('authProxyUrl', 'https://heinzelmannchen.herokuapp.com/get_code');
