@@ -1,18 +1,15 @@
-<md-whiteframe class="md-whiteframe-2dp" layout layout-align="center center" layout-padding>
-  <md-content>
-    <p>Search for issues to be highlighted:</p>
-    <md-input-container>
-      <label>Search Term</label>
-      <input ng-model="highlightModel.search" on-enter="searchByTerm()">
-    </md-input-container>
-    <div layout="column">
-      <div layout="row" ng-repeat="term in highlightModel.terms" class="search-term-box">
-        <span class="remove" ng-click="removeTermAtIndex($index)">x</span><span>{{term}}</span>
-      </div>
+<md-content class="search-term-box">
+  <md-input-container>
+    <label>Search Term</label>
+    <input ng-model="highlightModel.search" on-enter="searchByTerm()">
+  </md-input-container>
+  <div layout="column">
+    <div layout="row" ng-repeat="term in highlightModel.terms" class="search-term-box">
+      <span class="remove" ng-click="removeTermAtIndex($index)">x</span><span>{{term}}</span>
     </div>
-    <div layout="row">
-      <md-button class="md-primary md-raised" ng-click="searchByTerm()" ng-disabled="!highlightModel.search">Search</md-button>
-      <md-button class="md-raised" ng-click="resetHighlights()">Reset</md-button>
-    </div>
-  </md-content>
-</md-whiteframe>
+  </div>
+  <div layout="row">
+    <md-button class="md-primary md-raised" ng-click="searchByTerm()" ng-disabled="!highlightModel.search">Search</md-button>
+    <md-button class="md-raised" ng-click="resetHighlights()">Reset</md-button>
+  </div>
+</md-content>

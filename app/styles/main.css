@@ -91,12 +91,29 @@ div#auth-input > div {
   background-color: white;
 }
 
-.search-term-box {
-  margin-bottom: 10px;
-}
-
 .search-term-box .remove {
   cursor: pointer;
   color: #00254A;
   margin-right: 10px;
+}
+
+.user-info {
+  position: absolute;
+  bottom: 20px;
+  width: 304px;
+}
+
+.user-info h4 {
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 0.5em;
+}
+
+.user-info #logout {
+  cursor: pointer;
+}
+
+.user-info img {
+  width: 60px;
+  border-radius: 50%;
+  border: solid 5px #00254A;
 }

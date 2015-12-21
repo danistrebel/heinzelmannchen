@@ -11,16 +11,21 @@ angular.module('heinzelmannchen')
       $window.location.href = authProxyUrl + '?redirectTo=' + $location.url();
     }
 
+    function checkToken() {
+      var token = getToken()
+      if(!token) {
+        redirectToAuth();
+      }
+    }
+
     function issueURI(org, repo, page) {
       var pageParam = page ? '&page=' + page : '';
       return 'https://api.github.com/repos/' + org + '/' + repo + '/issues?per_page=50' + pageParam;
     }
 
     function loadIssues(org, repo, page) {
-      var token = getToken()
-      if(!token) {
-        redirectToAuth();
-      }
+      checkToken()
+
       var url = issueURI(org, repo, page)
       console.debug('loading: ' + url);
       $http.get(url, { headers: {'Authorization': 'token ' + getToken()}}).then(function (response) {
@@ -41,7 +46,13 @@ angular.module('heinzelmannchen')
       });
     }
 
+    function userPromise() {
+      checkToken()
+      return $http.get('https://api.github.com/user', { headers: {'Authorization': 'token ' + getToken()}})
+    }
+
     return {
-      loadIssues: loadIssues
+      loadIssues: loadIssues,
+      user: userPromise
     };
   });
