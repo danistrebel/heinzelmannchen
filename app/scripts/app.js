@@ -26,7 +26,8 @@ angular
       })
       .when('/graph', {
         templateUrl: 'views/heinz.html',
-        controller: 'HeinzCtrl'
+        controller: 'HeinzCtrl',
+        reloadOnSearch: false
       })
       .when('/token', {
         template: '<p>Accepting Token</p>',

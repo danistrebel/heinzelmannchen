@@ -1,0 +1,16 @@
+<div>
+  <h3>Repos</h3>
+  <div layout="row">
+    <md-input-container>
+      <label>org/repo</label>
+      <input ng-model="repoModel.search" on-enter="addRepo(repoModel.search)">
+    </md-input-container>
+    <div><md-button class="md-primary md-raised" ng-click="addRepo(repoModel.search)" ng-disabled="!repoModel.search">Add</md-button></div>
+  </div>
+  <div layout="column">
+    <div layout="row" ng-repeat="repo in repoModel.repos" class="search-term-box">
+      <span class="remove" ng-click="removeRepoAtIndex($index)">x</span><span>{{repo.org}} / {{repo.name}}</span>
+    </div>
+    <div class="remove" ng-if="repoModel.repos && repoModel.repos.length > 0" ng-click="resetRepos()">remove all</div>
+  </div>
+</div>

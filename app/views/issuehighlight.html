@@ -1,15 +1,18 @@
-<md-content class="search-term-box">
-  <md-input-container>
-    <label>Search Term</label>
-    <input ng-model="highlightModel.search" on-enter="searchByTerm()">
-  </md-input-container>
-  <div layout="column">
-    <div layout="row" ng-repeat="term in highlightModel.terms" class="search-term-box">
-      <span class="remove" ng-click="removeTermAtIndex($index)">x</span><span>{{term}}</span>
+<div>
+  <h3>Highlight</h3>
+  <md-content class="search-term-box">
+    <div layout="row">
+      <md-input-container>
+        <label>Search Term</label>
+        <input ng-model="highlightModel.search" on-enter="searchByTerm()">
+      </md-input-container>
+      <div><md-button class="md-primary md-raised" ng-click="searchByTerm()" ng-disabled="!highlightModel.search">Search</md-button></div>
     </div>
-  </div>
-  <div layout="row">
-    <md-button class="md-primary md-raised" ng-click="searchByTerm()" ng-disabled="!highlightModel.search">Search</md-button>
-    <md-button class="md-raised" ng-click="resetHighlights()">Reset</md-button>
-  </div>
-</md-content>
+    <div layout="column">
+      <div layout="row" ng-repeat="term in highlightModel.terms" class="search-term-box">
+        <span class="remove" ng-click="removeTermAtIndex($index)">x</span><span>{{term}}</span>
+      </div>
+      <div class="remove" ng-if="highlightModel.terms && highlightModel.terms.length > 0" ng-click="resetHighlights()">remove all</div>
+    </div>
+  </md-content>
+</div>

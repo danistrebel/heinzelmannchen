@@ -14,12 +14,9 @@ angular.module('heinzelmannchen')
       link: function postLink(scope, element, attrs) {
 
         $rootScope.$on('updateGraph', function() {
-          console.log('update');
           var dependencyModel = IssueSyntax.processIssues(IssueData.get());
           drawGraph(dependencyModel);
         })
-
-
 
         function drawGraph(dependencies) {
 

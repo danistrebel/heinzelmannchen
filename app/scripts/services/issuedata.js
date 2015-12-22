@@ -25,9 +25,15 @@ angular.module('heinzelmannchen')
       broadcastUpdate();
     }
 
+    function removeIssuesForRepo(repo) {
+      issues = _.reject(issues, function(issue) { return issue.url.indexOf(repo.org + "/" + repo.name) >= 0; });
+      broadcastUpdate();
+    }
+
     return {
       add: addIssues,
       clear: clearAll,
-      get: getAll
+      get: getAll,
+      removeIssuesForRepo: removeIssuesForRepo
     }
   });
