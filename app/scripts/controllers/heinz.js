@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heinzelmannchen')
-  .controller('HeinzCtrl', function ($routeParams, $location, RepoData) {
+  .controller('HeinzCtrl', function ($routeParams, $location, RepoData, $scope, $mdSidenav) {
 
 
     //load repos from query parameter or set a default placeholder repo
@@ -15,6 +15,11 @@ angular.module('heinzelmannchen')
       }
     } else {
       RepoData.addRepoString('cotiviti/heinzelmannchen');
+    }
+
+
+    $scope.toggleSideNav = function() {
+      $mdSidenav('right').toggle();
     }
 
   });
