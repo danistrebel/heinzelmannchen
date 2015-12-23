@@ -8,7 +8,7 @@ angular.module('heinzelmannchen')
     }
 
     function redirectToAuth() {
-      $window.location.href = authProxyUrl + '?redirectTo=' + $location.url();
+      $window.location.href = authProxyUrl + $window.location.search;
     }
 
     function checkToken() {
