@@ -31,7 +31,6 @@ angular.module('heinzelmannchen')
     graphContainer.attr('transform', 'translate(' + trans + ') scale(' + scale + ')');
   }
 
-  console.log(document.getElementById('view-wrapper').clientHeight);
   var width = document.getElementById('view-wrapper').clientWidth;
   var height = document.getElementById('view-wrapper').clientHeight-document.getElementById('tool-bar').clientHeight;
 

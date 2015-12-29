@@ -8,7 +8,10 @@ angular.module('heinzelmannchen')
     }
 
     function redirectToAuth() {
-      $window.location.href = authProxyUrl + $window.location.search;
+      var hash = $window.location.hash;
+      var queryParamStart = hash.indexOf('?');
+      var searchString = queryParamStart > 0 ? hash.substr(queryParamStart) : '';
+      $window.location.href = authProxyUrl + searchString;
     }
 
     function checkToken() {
