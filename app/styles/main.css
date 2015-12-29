@@ -91,11 +91,6 @@ div#auth-input > div {
   background-color: white;
 }
 
-.search-term-box .remove {
-  cursor: pointer;
-  color: #00254A;
-  margin-right: 10px;
-}
 
 .user-info {
   position: absolute;
@@ -132,6 +127,13 @@ md-sidenav > md-content {
 md-sidenav > md-content > div {
   position: absolute;
   min-height: 100%;
-  width: 100%;
   padding: 0px;
+}
+
+md-icon.remove-repo {
+  position: relative;
+}
+
+md-icon.remove-repo > svg {
+  fill: #333;
 }

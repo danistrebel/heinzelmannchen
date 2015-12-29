@@ -7,10 +7,12 @@
     </md-input-container>
     <div><md-button class="md-primary md-raised" ng-click="addRepo(repoModel.search)" ng-disabled="!repoModel.search">Add</md-button></div>
   </div>
-  <div layout="column">
-    <div layout="row" ng-repeat="repo in repoModel.repos" class="search-term-box">
-      <span class="remove" ng-click="removeRepoAtIndex($index)">x</span><span>{{repo.org}} / {{repo.name}}</span>
-    </div>
-    <div class="remove" ng-if="repoModel.repos && repoModel.repos.length > 0" ng-click="resetRepos()">remove all</div>
-  </div>
+  <md-list>
+    <md-subheader class="md-no-sticky">Shown Repositories</md-subheader>
+    <md-list-item ng-repeat="repo in repoModel.repos">
+      <!-- <md-checkbox ng-model="message.selected"></md-checkbox> -->
+      <p>{{repo.org}} / {{repo.name}}</p>
+      <md-icon class="md-secondary remove-repo" ng-click="removeRepoAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
+    </md-list-item>
+  </md-list>
 </div>

@@ -8,11 +8,12 @@
       </md-input-container>
       <div><md-button class="md-primary md-raised" ng-click="searchByTerm()" ng-disabled="!highlightModel.search">Search</md-button></div>
     </div>
-    <div layout="column">
-      <div layout="row" ng-repeat="term in highlightModel.terms" class="search-term-box">
-        <span class="remove" ng-click="removeTermAtIndex($index)">x</span><span>{{term}}</span>
-      </div>
-      <div class="remove" ng-if="highlightModel.terms && highlightModel.terms.length > 0" ng-click="resetHighlights()">remove all</div>
-    </div>
+    <md-list ng-if="highlightModel.terms.length > 0">
+      <md-subheader class="md-no-sticky">Active Highlights</md-subheader>
+      <md-list-item ng-repeat="term in highlightModel.terms">
+        <p>{{term}}</p>
+        <md-icon class="md-secondary remove-repo" ng-click="removeTermAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
+      </md-list-item>
+    </md-list>
   </md-content>
 </div>
