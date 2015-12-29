@@ -56,6 +56,7 @@ angular.module('heinzelmannchen')
 
     return {
       loadIssues: loadIssues,
-      user: userPromise
+      user: userPromise,
+      redirectToAuth: redirectToAuth
     };
   });
