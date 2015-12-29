@@ -10,7 +10,8 @@ angular.module('heinzelmannchen')
   .directive('dependencyGraph', function ($rootScope, IssueData, IssueSyntax, graphConfig) {
     return {
       template: '',
-      restrict: 'E',
+      restrict: 'A',
+      replace: true,
       link: function postLink(scope, element, attrs) {
 
         $rootScope.$on('updateGraph', function() {
@@ -30,9 +31,9 @@ angular.module('heinzelmannchen')
     graphContainer.attr('transform', 'translate(' + trans + ') scale(' + scale + ')');
   }
 
-  //TODO autmatic resizing
-  var width = element[0].parentNode.offsetWidth;
-  var height = element[0].parentNode.offsetHeight;
+  console.log(document.getElementById('view-wrapper').clientHeight);
+  var width = document.getElementById('view-wrapper').clientWidth;
+  var height = document.getElementById('view-wrapper').clientHeight-document.getElementById('tool-bar').clientHeight;
 
   var force = d3.layout.force()
       .charge(-300)
@@ -47,8 +48,9 @@ angular.module('heinzelmannchen')
     d3.event.sourceEvent.stopPropagation();
   }
 
-  d3.select('dependency-graph').select("svg").remove();
-  var svg = d3.select('dependency-graph').append('svg')
+  d3.select('#dependency-graph').select("svg").remove();
+
+  var svg = d3.select('#dependency-graph').append('svg')
       .attr("width", width)
       .attr("height", height)
       .call(graphConfig.zoom.on('zoom', rescale)).on('dblclick.zoom', null);

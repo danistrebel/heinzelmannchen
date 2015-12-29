@@ -1,21 +1,21 @@
-<div layout-fill layout="column">
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <h2>
-        <span>Project Heinzelmannchen</span>
-      </h2>
-      <span flex></span>
-      <md-button class="md-icon-button" aria-label="Settings" hide-gt-md ng-click="toggleSideNav()">
-        <md-icon md-svg-icon="images/icons/settings.svg"></md-icon>
-      </md-button>
-    </div>
-  </md-toolbar>
-  <section id="issue-visualization" layout="row" flex resize-watcher>
+<md-toolbar class="md-whiteframe-3dp" id="tool-bar">
+  <div class="md-toolbar-tools">
+    <h2>
+      <span>Project Heinzelmannchen</span>
+    </h2>
+    <span flex></span>
+    <md-button class="md-icon-button" aria-label="Settings" hide-gt-md ng-click="toggleSideNav()">
+      <md-icon md-svg-icon="images/icons/settings.svg"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+<section id="issue-visualization" layout="row" flex resize-watcher>
+  <md-content flex>
+    <div id="dependency-graph" dependency-graph></div>
+  </md-content>
+  <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')" layout="column">
     <md-content flex>
-      <dependency-graph></dependency-graph>
-    </md-content>
-    <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')" layout="column">
-      <md-content layout-padding layout="column" flex>
+      <div>
         <repo-list></repo-list>
         <issue-highlight></issue-highlight>
         <div>
@@ -23,7 +23,7 @@
           <p>coming soon..</p>
         </div>
         <userinfo></userinfo>
-      </md-content>
-    </md-sidenav>
-  </section>
-</div>
+      </div>
+    </md-content>
+  </md-sidenav>
+</section>

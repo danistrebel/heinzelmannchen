@@ -115,5 +115,23 @@ div#auth-input > div {
 .user-info img {
   width: 60px;
   border-radius: 50%;
-  border: solid 5px #00254A;
+}
+
+#view-wrapper {
+  overflow-y: hidden;
+}
+
+md-sidenav > md-content {
+  position: absolute;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  padding: 0px 20px;
+}
+
+md-sidenav > md-content > div {
+  position: absolute;
+  min-height: 100%;
+  width: 100%;
+  padding: 0px;
 }
