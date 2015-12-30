@@ -93,9 +93,8 @@ div#auth-input > div {
 
 
 .user-info {
-  position: absolute;
-  bottom: 20px;
-  width: 304px;
+  position: relative;
+  bottom: 40px;
 }
 
 .user-info h4 {
@@ -125,8 +124,6 @@ md-sidenav > md-content {
 }
 
 md-sidenav > md-content > div {
-  position: absolute;
-  min-height: 100%;
   padding: 0px;
 }
 
@@ -136,4 +133,21 @@ md-icon.remove-repo {
 
 md-icon.remove-repo > svg {
   fill: #333;
+}
+
+.side-nav-container md-list-item {
+  padding: 0px;
+  min-height: 36px;
+}
+
+.side-nav-container input {
+  border-style: none none solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(51, 51, 51);
+}
+
+.side-nav-container input:focus{
+    outline: 0;
+    border-bottom-color: rgb(0, 37, 74);
+    border-bottom-width: 2px;
 }

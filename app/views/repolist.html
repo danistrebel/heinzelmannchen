@@ -1,18 +1,13 @@
 <div>
   <h3>Repos</h3>
-  <div layout="row">
-    <md-input-container>
-      <label>org/repo</label>
-      <input ng-model="repoModel.search" on-enter="addRepo(repoModel.search)">
-    </md-input-container>
-    <div><md-button class="md-primary md-raised" ng-click="addRepo(repoModel.search)" ng-disabled="!repoModel.search">Add</md-button></div>
-  </div>
-  <md-list>
-    <md-subheader class="md-no-sticky">Shown Repositories</md-subheader>
-    <md-list-item ng-repeat="repo in repoModel.repos">
-      <!-- <md-checkbox ng-model="message.selected"></md-checkbox> -->
-      <p>{{repo.org}} / {{repo.name}}</p>
-      <md-icon class="md-secondary remove-repo" ng-click="removeRepoAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
-    </md-list-item>
-  </md-list>
+  <md-content>
+    <input ng-model="repoModel.search" placeholder="org/repo"  on-enter="addRepo(repoModel.search)">
+    <md-list>
+      <md-list-item ng-repeat="repo in repoModel.repos" layout="row">
+        <!-- <md-checkbox ng-model="message.selected"></md-checkbox> -->
+        <p>{{repo.org}} / {{repo.name}}</p>
+        <md-icon class="md-secondary remove-repo" ng-click="removeRepoAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
+      </md-list-item>
+    </md-list>
+  </md-content>
 </div>

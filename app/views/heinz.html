@@ -14,16 +14,16 @@
     <div id="dependency-graph" dependency-graph></div>
   </md-content>
   <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')" layout="column">
-    <md-content flex>
-      <div>
+    <md-content flex layout="column">
+      <div class="side-nav-container" flex>
         <repo-list></repo-list>
         <issue-highlight></issue-highlight>
-        <div>
+        <!-- <div>
           <h3>Filter</h3>
           <p>coming soon..</p>
-        </div>
-        <userinfo></userinfo>
+        </div> -->
       </div>
+      <userinfo></userinfo>
     </md-content>
   </md-sidenav>
 </section>
