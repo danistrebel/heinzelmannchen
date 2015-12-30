@@ -12,4 +12,5 @@ angular.module('heinzelmannchen')
     color : d3.scale.category20(),
     zoom : d3.behavior.zoom()
   })
-  .constant('authProxyUrl', 'https://heinzelmannchen.herokuapp.com/get_code');
+  .constant('authProxyUrl', 'https://heinzelmannchen.herokuapp.com/get_code')
+  .constant('defaultHighlightColor', '#64dd17');

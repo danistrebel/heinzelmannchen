@@ -4,7 +4,7 @@
   <md-list ng-if="highlightModel.terms.length > 0">
     <md-list-item ng-repeat="term in highlightModel.terms" layout="row">
       <p flex>{{term.searchKey}}</p>
-      <color-picker color="term.color"></color-picker>
+      <color-picker color="term.color" on-color-change="updateHighlight($index)"></color-picker>
       <md-icon class="remove-repo" ng-click="removeTermAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
     </md-list-item>
   </md-list>

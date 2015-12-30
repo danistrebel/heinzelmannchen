@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heinzelmannchen')
-  .controller('HeinzCtrl', function ($routeParams, $location, RepoData, HighlightData, $scope, $mdSidenav) {
+  .controller('HeinzCtrl', function ($routeParams, $location, RepoData, HighlightData, $scope, $mdSidenav, defaultHighlightColor) {
 
 
     //load repos from query parameter or set a default placeholder repo
@@ -14,8 +14,9 @@ angular.module('heinzelmannchen')
     handleRouteParams('hl', function(highlight) {
       var split = highlight.split('$');
       HighlightData.silentAdd({
+        id: Math.random(),
         searchKey: split[0],
-        color: split[1] || '#64dd17'
+        color: split[1] || defaultHighlightColor
       });
     });
 

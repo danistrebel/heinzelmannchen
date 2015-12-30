@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('heinzelmannchen')
-  .directive('issueHighlight', function (GraphApi, $mdToast, HighlightData) {
+  .directive('issueHighlight', function (GraphApi, $mdToast, HighlightData, defaultHighlightColor) {
     return {
       templateUrl: 'views/issuehighlight.html',
       restrict: 'E',
@@ -11,7 +11,11 @@ angular.module('heinzelmannchen')
         };
 
         scope.searchByTerm = function() {
-          var searchModel = {searchKey: scope.highlightModel.search};
+          var searchModel = {
+            id: Math.random(),
+            searchKey: scope.highlightModel.search,
+            color: defaultHighlightColor
+          };
           var found = HighlightData.add(searchModel);
           if (found.ok) {
             scope.highlightModel.terms = HighlightData.get();
@@ -23,11 +27,11 @@ angular.module('heinzelmannchen')
 
         scope.removeTermAtIndex = function(i) {
           scope.highlightModel.terms.splice(i, 1);
-          HighlightData.remove(scope.highlightModel.terms[i]);
+          HighlightData.reapplyHighlights();
         }
 
-        scope.resetHighlights = function() {
-          HighlightData.clearAll();
+        scope.updateHighlight = function() {
+          HighlightData.reapplyHighlights();
         }
 
         function toastMessage(msg) {

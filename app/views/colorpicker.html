@@ -1,4 +1,4 @@
 <div style="display: block; width: 24px; height: 24px; overflow: hidden;">
-    <md-icon class="color-toggle" ng-click="changeColor($index)" aria-label="color pick" md-svg-icon="images/icons/circle.svg" ng-style="{'fill': color}"></md-icon>
-    <input type="color" ng-model="color" style="opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -24px; left: -24px" />
+    <md-icon class="color-toggle" aria-label="color pick" md-svg-icon="images/icons/circle.svg" ng-style="{'fill': color}"></md-icon>
+    <input type="color" ng-model="color" style="opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -24px; left: -24px" ng-change="onColorChange()"/>
 </div>

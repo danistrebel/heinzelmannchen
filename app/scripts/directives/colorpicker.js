@@ -12,7 +12,8 @@ angular.module('heinzelmannchen')
       templateUrl: 'views/colorpicker.html',
       restrict: 'E',
       scope: {
-        color: '='
+        color: '=',
+        onColorChange: '='
       }
     };
   });
