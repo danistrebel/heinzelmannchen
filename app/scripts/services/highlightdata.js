@@ -6,7 +6,7 @@ angular.module('heinzelmannchen')
     var highlights = [];
 
     function updateQueryParams() {
-      $location.search('hl', highlights);
+      $location.search('hl', _.map(highlights, function(hl) { return hl.searchKey;}));
     }
 
     function getAll() {
@@ -37,10 +37,26 @@ angular.module('heinzelmannchen')
       GraphApi.clearAllHighlights();
     }
 
+    function remove(highlight) {
+      highlights = _.without(highlights, highlight);
+      updateQueryParams();
+      reapplyAll();
+    }
+
+    function reapplyAll() {
+      GraphApi.clearAllHighlights();
+      _.each(highlights, function(term) {
+        GraphApi.highlightTermMatch(term);
+      });
+    }
+
+
     return {
       add: addHighlight,
       silentAdd: silentAdd,
+      remove: remove,
       clear: clearAll,
+      reapplyHighlights: reapplyAll,
       get: getAll,
     }
   });

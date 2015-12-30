@@ -11,7 +11,7 @@ angular.module('heinzelmannchen')
     )
 
     //load highlights from query parameters
-    handleRouteParams('hl', function(highlight) { HighlightData.silentAdd(highlight) })
+    handleRouteParams('hl', function(highlight) { HighlightData.silentAdd({ searchKey: highlight}); });
 
     function handleRouteParams(paramName, paramHandler, missingParamAction) {
       if($routeParams[paramName]) {

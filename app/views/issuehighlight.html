@@ -3,7 +3,7 @@
   <input ng-model="highlightModel.search" placeholder="e.g. Issue Number" on-enter="searchByTerm()">
   <md-list ng-if="highlightModel.terms.length > 0">
     <md-list-item ng-repeat="term in highlightModel.terms">
-      <p>{{term}}</p>
+      <p>{{term.searchKey}}</p>
       <md-icon class="md-secondary remove-repo" ng-click="removeTermAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
     </md-list-item>
   </md-list>

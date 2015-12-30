@@ -3,6 +3,26 @@
   stroke-width: 1.5px;
 }
 
+.node.issues {
+  fill: #1F77B4;
+}
+
+.node.issues.prio-high {
+  fill: #b71c1c;
+}
+
+.node.issues.prio-medium {
+  fill: #f57c00;
+}
+
+.node.issues.prio-low {
+  fill: #FFD847;
+}
+
+.node.milestones {
+  fill: #AEC7E8;
+}
+
 .node.recently-modified {
   stroke: #64dd17;
   stroke-width: 4px;
@@ -38,10 +58,6 @@ div#auth-input {
 
 div#auth-input > div {
   padding: 20px;
-}
-
-.node.searched {
-  fill: #64dd17 !important;
 }
 
 @-webkit-keyframes svg_pulse {

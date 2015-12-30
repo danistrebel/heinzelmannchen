@@ -11,7 +11,8 @@ angular.module('heinzelmannchen')
         };
 
         scope.searchByTerm = function() {
-          var found = HighlightData.add(scope.highlightModel.search);
+          var searchModel = {searchKey: scope.highlightModel.search};
+          var found = HighlightData.add(searchModel);
           if (found.ok) {
             scope.highlightModel.terms = HighlightData.get();
             scope.highlightModel.search = '';
@@ -22,10 +23,7 @@ angular.module('heinzelmannchen')
 
         scope.removeTermAtIndex = function(i) {
           scope.highlightModel.terms.splice(i, 1);
-          GraphApi.clearAllHighlights();
-          _.each(scope.highlightModel.terms, function(term) {
-            GraphApi.highlightTermMatch(term);
-          });
+          HighlightData.remove(scope.highlightModel.terms[i]);
         }
 
         scope.resetHighlights = function() {
