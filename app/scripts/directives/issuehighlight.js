@@ -1,46 +1,44 @@
 'use strict';
 
 angular.module('heinzelmannchen')
-  .directive('issueHighlight', function () {
+  .directive('issueHighlight', function (GraphApi, $mdToast, HighlightData) {
     return {
       templateUrl: 'views/issuehighlight.html',
       restrict: 'E',
       link: function postLink(scope, element, attrs) {
         scope.highlightModel = {
-          terms: []
+          terms: HighlightData.get()
         };
 
-        function highlightTermMatch(searchKey) {
-          var matches = d3.selectAll('circle[number="' + searchKey + '"]');
-          if(matches.length>0) {
-            matches.classed('searched', true).classed('pulse', true);
-          } else {
-            console.debug('No node found for search: ' + searchKey);
-          }
-        }
-
-        function clearHighlights() {
-          d3.selectAll('circle').classed('pulse', false).classed('searched', false);
-        }
-
         scope.searchByTerm = function() {
-          d3.selectAll('circle.pulse').classed('pulse', false);
-          highlightTermMatch(scope.highlightModel.search);
-          scope.highlightModel.terms.push(scope.highlightModel.search);
-          scope.highlightModel.search = '';
+          var found = HighlightData.add(scope.highlightModel.search);
+          if (found.ok) {
+            scope.highlightModel.terms = HighlightData.get();
+            scope.highlightModel.search = '';
+          } else {
+            toastMessage(found.error);
+          }
         };
 
         scope.removeTermAtIndex = function(i) {
           scope.highlightModel.terms.splice(i, 1);
-          clearHighlights();
+          GraphApi.clearAllHighlights();
           _.each(scope.highlightModel.terms, function(term) {
-            highlightTermMatch(term);
+            GraphApi.highlightTermMatch(term);
           });
         }
 
         scope.resetHighlights = function() {
-          scope.highlightModel.terms = [];
-          clearHighlights();
+          HighlightData.clearAll();
+        }
+
+        function toastMessage(msg) {
+          $mdToast.show(
+            $mdToast.simple()
+              .textContent(msg)
+              .position('top right')
+              .hideDelay(2000)
+          );
         }
       }
     };

@@ -60,9 +60,25 @@ div#auth-input > div {
      }
 }
 
+@keyframes svg_pulse {
+  0% {
+     stroke-width: 1.5px;
+     opacity: 1;
+  }
+
+  50% {
+     stroke-width: 4px;
+     opacity: 0.5;
+  }
+  100% {
+     stroke-width: 1.5px;
+     opacity: 1;
+  }
+}
+
 .pulse {
-    -webkit-animation: svg_pulse 2s ease;
-    -webkit-animation-iteration-count: infinite;
+    -webkit-animation: svg_pulse 2s ease infinite; /* Chrome, Safari, Opera */
+    animation: svg_pulse 2s ease infinite;
 }
 
 #labs-branding {
