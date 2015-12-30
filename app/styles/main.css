@@ -167,6 +167,10 @@ md-icon.remove-repo > svg {
   fill: #333;
 }
 
+md-icon.color-toggle > svg {
+  fill: inherit;
+}
+
 .side-nav-container md-list-item {
   padding: 0px;
   min-height: 36px;

@@ -6,7 +6,11 @@ angular.module('heinzelmannchen')
     var highlights = [];
 
     function updateQueryParams() {
-      $location.search('hl', _.map(highlights, function(hl) { return hl.searchKey;}));
+      $location.search('hl', _.map(highlights, function(hl) {
+        var v = hl.searchKey;
+        v += hl.color ? ' ' + hl.color : '';
+        return v;
+      }));
     }
 
     function getAll() {

@@ -11,7 +11,13 @@ angular.module('heinzelmannchen')
     )
 
     //load highlights from query parameters
-    handleRouteParams('hl', function(highlight) { HighlightData.silentAdd({ searchKey: highlight}); });
+    handleRouteParams('hl', function(highlight) {
+      var split = highlight.split('$');
+      HighlightData.silentAdd({
+        searchKey: split[0],
+        color: split[1] || '#64dd17'
+      });
+    });
 
     function handleRouteParams(paramName, paramHandler, missingParamAction) {
       if($routeParams[paramName]) {
