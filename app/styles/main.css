@@ -7,18 +7,6 @@
   fill: #1F77B4;
 }
 
-.node.issues.prio-high {
-  fill: #b71c1c;
-}
-
-.node.issues.prio-medium {
-  fill: #f57c00;
-}
-
-.node.issues.prio-low {
-  fill: #FFD847;
-}
-
 .node.milestones {
   fill: #AEC7E8;
 }
