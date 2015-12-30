@@ -7,7 +7,7 @@ angular.module('heinzelmannchen')
   .service('GraphApi', function () {
 
     function clearAllHighlights() {
-      d3.selectAll("circle.searched").style('fill', null);
+      d3.selectAll("circle.searched").style('fill', null).style('stroke', null).style('stroke-width', null);
       d3.selectAll('circle').classed('pulse', false).classed('searched', false);
     }
 
@@ -23,8 +23,15 @@ angular.module('heinzelmannchen')
       }
 
       if(matches.length>0  && matches[0].length>0) {
-        matches.classed('searched', true).classed('pulse', true);
-        matches.style('fill', searchModel.color);
+        matches.classed('searched', true);
+        if(searchModel.shape == 'o') {
+          matches.style('stroke', searchModel.color)
+          matches.style('stroke-width', '4px')
+        } else if(searchModel.shape == 'c') {
+          matches.style('fill', searchModel.color);
+        } else {
+          // don't do anything
+        }
         return true;
       } else {
         console.debug('No node found for search: ' + searchKey);

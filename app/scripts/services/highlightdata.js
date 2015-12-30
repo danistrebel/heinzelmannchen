@@ -10,6 +10,7 @@ angular.module('heinzelmannchen')
       $location.search('hl', _.map(highlights, function(hl) {
         var v = hl.searchKey;
         v += hl.color ? '$' + hl.color : '';
+        v += hl.shape ? '$' + hl.shape : '';
         return v;
       }));
     }
