@@ -147,16 +147,6 @@ angular.module('heinzelmannchen')
         .attr('class', function(d) {
           var classes = 'node';
           classes += ' ' + d.type;
-          if (d.type === 'issues' && d.labels && d.labels.length > 0) {
-            var priorityLabels = _.pluck(d.labels, 'name');
-            if(_.contains(priorityLabels, 'priority high')) {
-              classes += ' prio-high';
-            } else if(_.contains(priorityLabels, 'priority medium')) {
-              classes += ' prio-medium';
-            } else if(_.contains(priorityLabels, 'priority low')) {
-              classes += ' prio-low';
-            }
-          }
           return classes;
         })
         .classed('recently-modified', function(d) {
@@ -177,6 +167,7 @@ angular.module('heinzelmannchen')
         })
         .attr("number", function(d) { return d.number; })
         .attr("type", function(d) { return d.type; })
+        .attr("labels", function(d) { return IssueSyntax.labelsString(d); })
         .style("fill", function(d) {
           if(d.type === 'users') {
             return "url(#avatar_" + d.id + ")";
@@ -185,8 +176,7 @@ angular.module('heinzelmannchen')
         .on('click', function(d, ev) {   if (d3.event.defaultPrevented || !d.html_url) {return;} window.open(d.html_url, '_blank').focus();})
         .call(drag);
 
-        node.append("title")
-        .text(function(d) {
+        node.append("title").text(function(d) {
           if(d.type === 'users') {
             return d.login;
           } else if(d.type === 'issues') {

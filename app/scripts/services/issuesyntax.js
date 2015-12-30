@@ -105,8 +105,17 @@ angular.module('heinzelmannchen')
       }
     }
 
+    function labelsString(node) {
+      if (node.type === 'issues' && node.labels && node.labels.length > 0) {
+        return _.pluck(node.labels, 'name').join(';');
+      } else {
+        return undefined;
+      }
+    }
+
     return {
       processIssues: processIssues,
-      parseIssueUrl: parseIssueUrl
+      parseIssueUrl: parseIssueUrl,
+      labelsString: labelsString
     }
   });
