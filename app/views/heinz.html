@@ -9,9 +9,9 @@
     </md-button>
   </div>
 </md-toolbar>
-<section id="issue-visualization" layout="row" flex resize-watcher>
+<section id="issue-visualization" layout="row" flex>
   <md-content flex>
-    <div id="dependency-graph" dependency-graph></div>
+    <div id="dependency-graph" dependency-graph resize-watcher></div>
   </md-content>
   <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')" layout="column">
     <md-content flex layout="column">

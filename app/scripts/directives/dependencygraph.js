@@ -32,8 +32,8 @@ angular.module('heinzelmannchen')
           graphContainer.attr('transform', 'translate(' + trans + ') scale(' + scale + ')');
         }
 
-        var width = document.getElementById('view-wrapper').clientWidth;
-        var height = document.getElementById('view-wrapper').clientHeight-document.getElementById('tool-bar').clientHeight;
+        var width = document.getElementById('dependency-graph').clientWidth - 10;
+        var height = document.getElementById('dependency-graph').parentNode.clientHeight - 10;
 
         var force = d3.layout.force()
         .charge(-300)
