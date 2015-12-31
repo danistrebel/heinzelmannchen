@@ -141,22 +141,29 @@ angular.module('heinzelmannchen')
         })
 
         var node = graphContainer.selectAll('.node')
-        .data(graph.nodes)
-        .enter().append('circle')
-        .attr('class', function(d) {
-          var classes = 'node';
-          classes += ' ' + d.type;
-          return classes;
-        })
-        .attr("number", function(d) { return d.number; })
-        .attr("type", function(d) { return d.type; })
-        .style("fill", function(d) {
-          if(d.type === 'users') {
-            return "url(#avatar_" + d.id + ")";
-          }
-        })
-        .on('click', function(d, ev) {   if (d3.event.defaultPrevented || !d.html_url) {return;} window.open(d.html_url, '_blank').focus();})
-        .call(drag);
+          .data(graph.nodes)
+          .enter().append('circle')
+          .attr('class', function(d) {
+            var classes = 'node';
+            classes += ' ' + d.type;
+            return classes;
+          })
+          .attr("number", function(d) { return d.number; })
+          .attr("type", function(d) { return d.type; })
+          .style("fill", function(d) {
+            if(d.type === 'users') {
+              return "url(#avatar_" + d.id + ")";
+            }
+          })
+          .attr("r", function(d) {
+            if(d.type === "users") {
+              return 20;
+            } else {
+              return 10;
+            }
+          })
+          .on('click', function(d, ev) {   if (d3.event.defaultPrevented || !d.html_url) {return;} window.open(d.html_url, '_blank').focus();})
+          .call(drag);
 
         node.append("title").text(function(d) {
           if(d.type === 'users') {

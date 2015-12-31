@@ -1,11 +1,6 @@
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
-  r: 10;
-}
-
-.node.users {
-  r: 20;
 }
 
 .node.issues {
