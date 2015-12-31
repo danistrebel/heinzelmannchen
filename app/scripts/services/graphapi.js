@@ -4,7 +4,7 @@
  * Allowing modifictions on the existing graph.
  */
 angular.module('heinzelmannchen')
-  .service('GraphApi', function () {
+  .service('GraphApi', function (QueryDSL) {
 
     function clearAllHighlights() {
       d3.selectAll("circle.searched").style('fill', null).style('stroke', null).style('stroke-width', null);
@@ -12,14 +12,24 @@ angular.module('heinzelmannchen')
     }
 
     function highlightTermMatch(searchModel) {
+      //if skip if hidden
+      if(searchModel.shape == 'h') {
+        return true;
+      }
+
       var searchKey = searchModel.searchKey;
 
       var matches = [];
 
-      if(isInteger(searchKey)) {
+      if(QueryDSL.isIntegerSearch(searchKey)) {
         matches = matchByIssueNumber(searchModel);
-      } else if (isLabelSearch(searchKey)) {
-        matches = matchByLabel(searchKey.substr(searchKey.indexOf(':')+1))
+      } else if (QueryDSL.isLabelSearch(searchKey)) {
+        matches = matchByLabel(searchKey.substr(searchKey.indexOf(':')+1));
+      } else if (QueryDSL.isTimestampSearch(searchKey)) {
+        matches = matchByTimeStamp(
+          searchKey.substr(0, searchKey.indexOf(':')),
+          searchKey.substr(searchKey.indexOf(':')+1)
+        )
       }
 
       if(matches.length>0  && matches[0].length>0) {
@@ -39,9 +49,7 @@ angular.module('heinzelmannchen')
       }
     }
 
-    function isInteger(x) { return Math.round(x) === parseInt(x, 10) };
 
-    function isLabelSearch(s) { return s.indexOf('label:') === 0; }
 
     function matchByIssueNumber(searchModel) {
       return d3.selectAll('circle.issues[number="' + searchModel.searchKey + '"]');
@@ -52,6 +60,15 @@ angular.module('heinzelmannchen')
         return _.some(d.labels, function(dLabel) {
           return dLabel.name.toLowerCase() == label.toLowerCase();
         })
+      });
+    }
+
+    function matchByTimeStamp(kind, period) {
+      var periodMillis = QueryDSL.toPeriodMillis(period);
+      var todayMillis = (new Date()).getTime();
+      return d3.selectAll('circle.issues').filter(function(d) {
+        var kindTimeMillis = (new Date(d[kind + '_at'])).getTime();
+        return d[kind + '_at'] && (todayMillis - kindTimeMillis < periodMillis);
       });
     }
 

@@ -99,23 +99,13 @@ angular.module('heinzelmannchen')
       if(startDependenciesSection<0) {
         return [];
       } else {
-        //TODO improve the regex stuff
         var dependenciesSection = issue.body.substring(startDependenciesSection);
         return parseIssueDependency(dependenciesSection, issueOrg, issueRepo);
       }
     }
 
-    function labelsString(node) {
-      if (node.type === 'issues' && node.labels && node.labels.length > 0) {
-        return _.pluck(node.labels, 'name').join(';');
-      } else {
-        return undefined;
-      }
-    }
-
     return {
       processIssues: processIssues,
-      parseIssueUrl: parseIssueUrl,
-      labelsString: labelsString
+      parseIssueUrl: parseIssueUrl
     }
   });

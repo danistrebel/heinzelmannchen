@@ -1,6 +1,11 @@
 .node {
   stroke: #fff;
   stroke-width: 1.5px;
+  r: 10;
+}
+
+.node.users {
+  r: 20;
 }
 
 .node.issues {
@@ -9,11 +14,6 @@
 
 .node.milestones {
   fill: #AEC7E8;
-}
-
-.node.recently-modified {
-  stroke: #64dd17;
-  stroke-width: 4px;
 }
 
 .link {
@@ -37,15 +37,6 @@
   width: 250px;
   padding: 10px;
   background-color: #FFF;
-}
-
-div#auth-input {
-    margin-top: 20px;
-    display: none;
-}
-
-div#auth-input > div {
-  padding: 20px;
 }
 
 @-webkit-keyframes svg_pulse {

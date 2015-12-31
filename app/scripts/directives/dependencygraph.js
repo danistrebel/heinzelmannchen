@@ -139,7 +139,6 @@ angular.module('heinzelmannchen')
             return "url(#endDefault)";
           }
         })
-        .style("stroke-width", function(d) { return Math.sqrt(d.value); });
 
         var node = graphContainer.selectAll('.node')
         .data(graph.nodes)
@@ -149,25 +148,8 @@ angular.module('heinzelmannchen')
           classes += ' ' + d.type;
           return classes;
         })
-        .classed('recently-modified', function(d) {
-          if(d['created_at']) {
-            var created = new Date(d['updated_at']);
-            if (((new Date().getTime()) - created.getTime()) < 24*60*60*1000) {
-              return true;
-            }
-          }
-          return false;
-        })
-        .attr("r", function(d) {
-          if(d.type === "users") {
-            return 20;
-          } else {
-            return 10;
-          }
-        })
         .attr("number", function(d) { return d.number; })
         .attr("type", function(d) { return d.type; })
-        .attr("labels", function(d) { return IssueSyntax.labelsString(d); })
         .style("fill", function(d) {
           if(d.type === 'users') {
             return "url(#avatar_" + d.id + ")";
