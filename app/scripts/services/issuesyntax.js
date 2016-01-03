@@ -104,8 +104,27 @@ angular.module('heinzelmannchen')
       }
     }
 
+    function nodeLabel(node) {
+      if(node.title) {
+        return node.title;
+      }
+      var title = undefined;
+      if(node.type === 'users') {
+        title = node.login;
+      } else if(node.type === 'issues') {
+        title = parseIssueUrl(node.html_url).repo + "#" + node.number + " - " + node.title;
+      } else if(node.type === 'milestones') {
+        title = "M - " + node.title;
+      } else if(node.type === 'issues') {
+        title = node.title;
+      }
+      node.title = title;
+      return title;
+    }
+
     return {
       processIssues: processIssues,
-      parseIssueUrl: parseIssueUrl
+      parseIssueUrl: parseIssueUrl,
+      nodeLabel: nodeLabel
     }
   });

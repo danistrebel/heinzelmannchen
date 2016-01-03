@@ -165,17 +165,7 @@ angular.module('heinzelmannchen')
           .on('click', function(d, ev) {   if (d3.event.defaultPrevented || !d.html_url) {return;} window.open(d.html_url, '_blank').focus();})
           .call(drag);
 
-        node.append("title").text(function(d) {
-          if(d.type === 'users') {
-            return d.login;
-          } else if(d.type === 'issues') {
-            return IssueSyntax.parseIssueUrl(d.html_url).repo + "#" + d.number + " - " + d.title;
-          } else if(d.type === 'milestones') {
-            return "M - " + d.title;
-          } else if(d.type === 'issues') {
-            return d.title;
-          }
-        });
+        node.append("title").text(IssueSyntax.nodeLabel);
 
         force.on("tick", function() {
           link.attr("x1", function(d) { return d.source.x; })
