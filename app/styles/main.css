@@ -161,3 +161,7 @@ md-icon.color-toggle > svg {
     border-bottom-color: rgb(0, 37, 74);
     border-bottom-width: 2px;
 }
+
+input#fake-color {
+  cursor: pointer;
+}
