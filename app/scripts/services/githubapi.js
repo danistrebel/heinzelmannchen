@@ -23,7 +23,7 @@ angular.module('heinzelmannchen')
 
     function issueURI(org, repo, page) {
       var pageParam = page ? '&page=' + page : '';
-      return 'https://api.github.com/repos/' + org + '/' + repo + '/issues?per_page=50' + pageParam;
+      return 'https://api.github.com/repos/' + org + '/' + repo + '/issues?per_page=100' + pageParam;
     }
 
     function loadIssues(org, repo, page) {
