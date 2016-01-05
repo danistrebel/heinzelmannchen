@@ -23,7 +23,9 @@ angular.module('heinzelmannchen')
 
       if(QueryDSL.isIntegerSearch(searchKey)) {
         matches = matchByIssueNumber(searchModel);
-      } else if (QueryDSL.isLabelSearch(searchKey)) {
+      } else if (QueryDSL.isRepoIssueSearch(searchKey)) {
+        matches = matchByRepoIssue(QueryDSL.getRepoAndIssueNumber(searchKey))
+      }else if (QueryDSL.isLabelSearch(searchKey)) {
         matches = matchByLabel(searchKey.substr(searchKey.indexOf(':')+1));
       } else if (QueryDSL.isTimestampSearch(searchKey)) {
         matches = matchByTimeStamp(
@@ -53,6 +55,12 @@ angular.module('heinzelmannchen')
 
     function matchByIssueNumber(searchModel) {
       return d3.selectAll('circle.issues[number="' + searchModel.searchKey + '"]');
+    }
+
+    function matchByRepoIssue(repoIssue) {
+      return d3.selectAll('circle.issues[number="' + repoIssue.issue + '"]').filter(function(d) {
+        return d.url.indexOf(repoIssue.repo) >= 0;
+      });
     }
 
     function matchByLabel(label) {

@@ -5,6 +5,22 @@ angular.module('heinzelmannchen')
 
     function isIntegerSearch(x) { return Math.round(x) === parseInt(x, 10) };
 
+    function repoIssueRegexMatch(x) { return x.match(/^(\w+)\#([0-9]+)$/); }
+    function isRepoIssueSearch(x) {
+      var match = repoIssueRegexMatch(x)
+      return match && match.length === 3;
+    }
+
+    function getRepoAndIssueNumber(x) {
+      if(isRepoIssueSearch(x)) {
+        var match = repoIssueRegexMatch(x);
+        return {
+          repo: match[1],
+          issue: parseInt(match[2], 10)
+        }
+      }
+    }
+
     function isLabelSearch(s) { return s.indexOf('label:') === 0; }
 
     function isTimestampSearch(s) {
@@ -46,9 +62,11 @@ angular.module('heinzelmannchen')
 
     return {
       isIntegerSearch: isIntegerSearch,
+      isRepoIssueSearch: isRepoIssueSearch,
       isLabelSearch: isLabelSearch,
       isTimestampSearch: isTimestampSearch,
-      toPeriodMillis: toPeriodMillis
+      toPeriodMillis: toPeriodMillis,
+      getRepoAndIssueNumber: getRepoAndIssueNumber
     }
 
   });

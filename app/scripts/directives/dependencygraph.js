@@ -79,47 +79,6 @@ angular.module('heinzelmannchen')
         force.size([width, height]);
         svg.attr("width", width).attr("height", height);
 
-        function buildDependenciesGraph(dependencies) {
-          function makeNodes(type) {
-            return _.map(_.values(dependencies[type]), function(e) {e.type = type; return e;});
-          }
-
-          var users = makeNodes("users");
-          var issues = makeNodes("issues");
-          var milestones = makeNodes("milestones");
-          var nodes = _.union(users, issues, milestones);
-          var links = [];
-
-          // assemble milestone -> issue dependencies
-          _.each(dependencies.milestoneDependencies, function(dep) {
-            links.push({
-              source: dependencies.milestones[dep.milestone],
-              target: dependencies.issues[dep.issue]
-            });
-          });
-
-          // assemble issue -> user dependencies
-          _.each(dependencies.userDependencies, function(dep) {
-            links.push({
-              source: dependencies.issues[dep.issue],
-              target: dependencies.users[dep.user]
-            });
-          });
-
-          _.each(dependencies.indicationDependencies, function(dep) {
-            links.push({
-              source: dependencies.issues[dep.source],
-              target: dependencies.issues[dep.target]
-            });
-          });
-
-          return {
-            nodes: nodes,
-            links: links,
-            users: users
-          };
-        }
-
         var graph = IssueSyntax.buildDependenciesGraph(dependencies);
 
         force
