@@ -202,7 +202,8 @@ angular.module('heinzelmannchen')
       }
 
       _.each(dependencies.issues, function(issue) {
-        delete issue.dependentIssues;
+        delete issue.incomming;
+        delete issue.outgoing;
       })
 
       return {
