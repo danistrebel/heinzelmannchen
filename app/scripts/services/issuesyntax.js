@@ -105,8 +105,8 @@ angular.module('heinzelmannchen')
     }
 
     function nodeLabel(node) {
-      if(node.title) {
-        return node.title;
+      if(node.heinzTitle) {
+        return node.heinzTitle;
       }
       var title = undefined;
       if(node.type === 'users') {
@@ -115,10 +115,8 @@ angular.module('heinzelmannchen')
         title = parseIssueUrl(node.html_url).repo + "#" + node.number + " - " + node.title;
       } else if(node.type === 'milestones') {
         title = "M - " + node.title;
-      } else if(node.type === 'issues') {
-        title = node.title;
       }
-      node.title = title;
+      node.heinzTitle = title;
       return title;
     }
 
@@ -132,6 +130,7 @@ angular.module('heinzelmannchen')
       var milestones = makeNodes("milestones");
       var nodes = _.union(users, issues, milestones);
       var links = [];
+      var issueDependencyTracker = {}
 
       // assemble milestone -> issue dependencies
       _.each(dependencies.milestoneDependencies, function(dep) {
@@ -150,11 +149,61 @@ angular.module('heinzelmannchen')
       });
 
       _.each(dependencies.indicationDependencies, function(dep) {
+
+        var sourceIssue = dependencies.issues[dep.source];
+        var targetIssue = dependencies.issues[dep.target];
+
+        if(!targetIssue.incomming) {
+          targetIssue.incomming = [];
+        }
+        targetIssue.incomming.push(dep.source);
+
+        if(!sourceIssue.outgoing) {
+          sourceIssue.outgoing = [];
+        }
+        sourceIssue.outgoing.push(dep.target);
+
+        if(!targetIssue.incommingDependenciesCount) {
+          targetIssue.incommingDependenciesCount = 1;
+        } else {
+          targetIssue.incommingDependenciesCount += 1;
+        }
+
+        issueDependencyTracker[dep.target] = true;
+
         links.push({
-          source: dependencies.issues[dep.source],
-          target: dependencies.issues[dep.target]
+          source: sourceIssue,
+          target: targetIssue
         });
       });
+
+      //propagate dependencies count
+      while(!_.isEmpty(issueDependencyTracker)) {
+        var newTracker = {};
+        _.each(_.keys(issueDependencyTracker), function(dependencyId) {
+          var targetIssue = dependencies.issues[dependencyId];
+          var sourcesDependencySums = _.map(targetIssue.incomming, function(sourceIssueId) {
+            var sourceIssue = dependencies.issues[sourceIssueId];
+            return (sourceIssue.incommingDependenciesCount || 0) + 1;
+          });
+
+          var dependencySum = _.reduce(sourcesDependencySums, function(memo, num){ return memo + num; }, 0);
+
+          if(targetIssue.incommingDependenciesCount !== dependencySum) {
+            targetIssue.incommingDependenciesCount = dependencySum;
+            if(targetIssue.outgoing) {
+              _.each(targetIssue.outgoing, function(outgoingId){
+                newTracker[outgoingId] = true;
+              });
+            }
+          }
+        })
+        issueDependencyTracker = newTracker;
+      }
+
+      _.each(dependencies.issues, function(issue) {
+        delete issue.dependentIssues;
+      })
 
       return {
         nodes: nodes,
