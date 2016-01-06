@@ -163,11 +163,10 @@ angular.module('heinzelmannchen')
         }
         sourceIssue.outgoing.push(dep.target);
 
-        if(!targetIssue.incommingDependenciesCount) {
-          targetIssue.incommingDependenciesCount = 1;
-        } else {
-          targetIssue.incommingDependenciesCount += 1;
+        if(!targetIssue.incommingDependencies) {
+          targetIssue.incommingDependencies = {};
         }
+        targetIssue.incommingDependencies[dep.source] = true;
 
         issueDependencyTracker[dep.target] = true;
 
@@ -182,15 +181,16 @@ angular.module('heinzelmannchen')
         var newTracker = {};
         _.each(_.keys(issueDependencyTracker), function(dependencyId) {
           var targetIssue = dependencies.issues[dependencyId];
-          var sourcesDependencySums = _.map(targetIssue.incomming, function(sourceIssueId) {
+
+          var newTransitiveDependencies = targetIssue.incommingDependencies;
+
+          var transitiveDependencies = _.each(targetIssue.incomming, function(sourceIssueId) {
             var sourceIssue = dependencies.issues[sourceIssueId];
-            return (sourceIssue.incommingDependenciesCount || 0) + 1;
+            _.extendOwn(newTransitiveDependencies, sourceIssue.incommingDependencies);
           });
 
-          var dependencySum = _.reduce(sourcesDependencySums, function(memo, num){ return memo + num; }, 0);
-
-          if(targetIssue.incommingDependenciesCount !== dependencySum) {
-            targetIssue.incommingDependenciesCount = dependencySum;
+          if(_.keys(targetIssue.incommingDependencies).length !== _.keys(newTransitiveDependencies).length) {
+            targetIssue.incommingDependencies = targetIssue.newTransitiveDependencies;
             if(targetIssue.outgoing) {
               _.each(targetIssue.outgoing, function(outgoingId){
                 newTracker[outgoingId] = true;
@@ -202,6 +202,10 @@ angular.module('heinzelmannchen')
       }
 
       _.each(dependencies.issues, function(issue) {
+        if(issue.incommingDependencies) {
+          issue.incommingDependenciesCount = _.keys(issue.incommingDependencies).length;
+          delete issue.incommingDependencies;
+        }
         delete issue.incomming;
         delete issue.outgoing;
       })
