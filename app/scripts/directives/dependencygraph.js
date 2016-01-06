@@ -7,7 +7,7 @@
 * # dependencyGraph
 */
 angular.module('heinzelmannchen')
-.directive('dependencyGraph', function ($rootScope, IssueData, IssueSyntax, graphConfig, HighlightData) {
+.directive('dependencyGraph', function ($rootScope, IssueData, IssueSyntax, graphConfig, HighlightData, InsightsData) {
   return {
     template: '',
     restrict: 'A',
@@ -155,14 +155,21 @@ angular.module('heinzelmannchen')
 
         nodesUpdate.exit().remove();
 
-        var depencyCountsUpdate = allDependencyCounts().data(graph.nodes, function(d) { return d.id; });
-        depencyCountsUpdate.enter().append('text').filter(function(d){ return !!d.incommingDependenciesCount; })
-          .attr('class', 'dependency-count')
-          .text(function(d) { return d.incommingDependenciesCount})
-          .style({'fill': '#FFF', 'font-size': '10px'});
-        depencyCountsUpdate.exit().remove();
+        if(InsightsData.model.dependenciesShown) {
+          var depencyCountsUpdate = allDependencyCounts().data(graph.nodes, function(d) { return d.id; });
 
+          depencyCountsUpdate.enter().append('text').filter(function(d){ return d.incommingDependenciesCount; })
+            .attr('class', 'dependency-count')
+            .text(function(d) { return d.incommingDependenciesCount})
+            .style({
+              'fill': '#FFF',
+              'font-size': '10px'
+            });
 
+            depencyCountsUpdate.exit().remove();
+        } else {
+          allDependencyCounts().remove();
+        }
       }
 
 

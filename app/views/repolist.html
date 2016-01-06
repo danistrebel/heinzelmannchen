@@ -1,12 +1,12 @@
 <div>
-  <h3>Repos</h3>
+  <h3>Repositories</h3>
   <md-content>
     <input ng-model="repoModel.search" placeholder="org/repo"  on-enter="addRepo(repoModel.search)">
     <md-list>
       <md-list-item ng-repeat="repo in repoModel.repos" layout="row">
         <!-- <md-checkbox ng-model="message.selected"></md-checkbox> -->
-        <p>{{repo.org}} / {{repo.name}}</p>
-        <md-icon class="md-secondary remove-repo" ng-click="removeRepoAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
+        <p flex>{{repo.org}} / {{repo.name}}</p>
+        <md-icon class="remove-repo" ng-click="removeRepoAtIndex($index)" aria-label="remove repo" md-svg-icon="images/icons/delete.svg" style="color: black;"></md-icon>
       </md-list-item>
     </md-list>
   </md-content>
