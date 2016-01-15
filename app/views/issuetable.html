@@ -1,0 +1,21 @@
+<div ng-repeat="(milestoneId, issues) in issuesByMilestone">
+  <h4 ng-if="milestoneId >= 0">Issues for Milestone {{indexedMilestones[milestoneId].number}} ({{indexedMilestones[milestoneId].title}})</h4>
+  <h4 ng-if="milestoneId < 0">Issues without Milestone</h4>
+  <table>
+    <thead>
+      <tr>
+        <td>#</td>
+        <td>Status</td>
+        <td>Title</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="issue in issues | orderBy: 'number'">
+        <td>{{issue.number}}</td>
+        <td>{{issue.state}}</td>
+        <td>{{issue.title}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

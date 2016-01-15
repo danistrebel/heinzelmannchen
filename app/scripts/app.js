@@ -29,6 +29,11 @@ angular
         controller: 'HeinzCtrl',
         reloadOnSearch: false
       })
+      .when('/export', {
+        templateUrl: 'views/export.html',
+        controller: 'HeinzCtrl',
+        reloadOnSearch: false
+      })
       .when('/token', {
         template: '<p>Accepting Token</p>',
         controller: 'TokenReceiverCtrl'
