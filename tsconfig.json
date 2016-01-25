@@ -1,0 +1,11 @@
+{
+  "atom": {
+    "rewriteTsconfig": true
+  },
+  "compilerOptions": {
+       "module": "commonjs",
+       "noImplicitAny": true,
+       "removeComments": true,
+       "target": "ES5"
+   }
+}
