@@ -13,16 +13,20 @@ We've decided to just jump to the end and created this handy tool enabling us to
 Some notes on the colors.  We use priority tags to help us triangulate ourselves with our customer's business needs. Heinzelmannchen uses those to color code each circle - red is high, yellow is medium, dark blue is low.  The light blue circles are milestones. The green outline on some of the issues highlights those issues that have been changed in the last 24 hours.
 
 To add dependencies simply add this section to the tail end of each issue -
+
 ```
 ### Dependencies
 * [ ] #X
 * [ ] #Y
 * [ ] https://github.com/ORG/REPO/issues/Z
 ```
+
 Where X, Y, Z are issue ID's.  We created this handy link to speed up the process -
+
 ```
 https://github.com/YOUR-ORG/YOUR-REPO/issues/new?&body=%23%23%23%20Description%0A%0A%23%23%23%20Acceptance%20Test%0A%0A%23%23%23%20Dependencies%0A%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23%0A%2A%20%5B%20%5D%20%23
 ```
+
 Where YOUR-ORG is your organization and YOUR-REPO is your repo.  Yes, GitHub provides a a list of issues that have mentioned this one but we can't guarantee that those mentions are dependencies or something else so we decided to be more explicit.
 
 If you want to try heinzelmannchen on your own repositories, visit https://cotiviti.github.io/heinzelmannchen/login.html to authorize your GitHub credentials and then change the `repo` query parameter to reflect your organization and repository.
