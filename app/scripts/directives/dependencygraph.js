@@ -15,10 +15,10 @@ angular.module('heinzelmannchen')
     link: function postLink(scope, element, attrs) {
 
       $rootScope.$on('updateGraph', function() {
-        var dependencyModel = IssueSyntax.processIssues(IssueData.get());
+        var dependencyModel = IssueData.getFilteredModel();
         redrawGraph(dependencyModel);
         HighlightData.reapplyHighlights();
-      })
+      });
 
       var svg = d3.select('#dependency-graph').append('svg')
       .call(graphConfig.zoom.on('zoom', rescale))

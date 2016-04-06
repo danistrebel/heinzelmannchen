@@ -44,7 +44,7 @@ angular.module('heinzelmannchen')
               target: dependentIssue.id
             });
           } else {
-            console.warn("Referenced issue " + dependentIssue + " was not found as referenced in " + issue.html_url);
+            // console.warn("Referenced issue " + dependentIssue + " was not found as referenced in " + issue.html_url);
           }
         });
       });
