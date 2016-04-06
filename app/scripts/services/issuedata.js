@@ -16,7 +16,6 @@ angular.module('heinzelmannchen')
 
     function getFilteredModel() {
       var unfilteredModel = IssueSyntax.processIssues(issues);
-      console.log(unfilteredModel);
       if (!filter.milestone) {
           return unfilteredModel;
       }
@@ -38,9 +37,9 @@ angular.module('heinzelmannchen')
           });
 
           var flatIds = _.uniq(_.flatten(relatedIssues));
-          var newStuff = _.without(flatIds, milestoneIssueIds);
+          var newStuff = _.compact(_.difference(flatIds, milestoneIssueIds));
           milestoneIssueIds = _.union(milestoneIssueIds, flatIds);
-          fringeIssueIds = [];
+          fringeIssueIds = newStuff;
         });
 
       }
@@ -48,8 +47,8 @@ angular.module('heinzelmannchen')
       var userDependencies = _.filter(unfilteredModel.userDependencies, function(ud) { return _.contains(milestoneIssueIds, ud.issue);});
 
       var filtered =  {
-        milestones : _.indexBy(_.filter(unfilteredModel.milestones, function(m) { return m.id === milestoneFilter;}), 'id'),
-        milestoneDependencies: filteredMilestoneDependencies,
+        milestones :[],
+        milestoneDependencies: [],
         issues: _.indexBy(_.filter(unfilteredModel.issues, function(i) { return _.contains(milestoneIssueIds, i.id);}), 'id'),
         userDependencies: userDependencies,
         indicationDependencies: _.filter(unfilteredModel.indicationDependencies, function(i) { return (_.contains(milestoneIssueIds, i.source) && _.contains(milestoneIssueIds, i.target));}),
