@@ -1,0 +1,12 @@
+<div>
+  <h3>Filter</h3>
+  <md-input-container>
+        <label>Milestone</label>
+        <md-select ng-model="filterModel.milestone" ng-change="filterChanged()">
+          <md-option ng-value="null">All</md-option>
+          <md-option ng-repeat="milestone in filterOptions.milestones" ng-value="milestone.id">
+            {{milestone.title}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+</div>

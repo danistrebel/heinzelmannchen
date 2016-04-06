@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('heinzelmannchen')
-  .service('IssueData', function ($rootScope) {
+  .service('IssueData', function ($rootScope, IssueSyntax) {
 
     var issues = [];
+    var filter = {};
 
     function broadcastUpdate() {
       $rootScope.$broadcast('updateGraph');
@@ -11,6 +12,50 @@ angular.module('heinzelmannchen')
 
     function getAll() {
       return issues;
+    }
+
+    function getFilteredModel() {
+      var unfilteredModel = IssueSyntax.processIssues(issues);
+      console.log(unfilteredModel);
+      if (!filter.milestone) {
+          return unfilteredModel;
+      }
+
+      var milestoneFilter = filter.milestone;
+
+
+      var filteredMilestoneDependencies = _.filter(unfilteredModel.milestoneDependencies, function(md) { return md.milestone === milestoneFilter; });
+      var milestoneIssueIds = _.pluck(filteredMilestoneDependencies, 'issue');
+
+      var fringeIssueIds = _.union(milestoneIssueIds, []);
+
+      while(fringeIssueIds.length !== 0) {
+        _.map(fringeIssueIds, function(fringeId) {
+          var relatedIssues = _.map(unfilteredModel.indicationDependencies, function(dep) {
+            if(dep.source === fringeId || dep.target === fringeId) {
+              return [dep.source, dep.target];
+            }
+          });
+
+          var flatIds = _.uniq(_.flatten(relatedIssues));
+          var newStuff = _.without(flatIds, milestoneIssueIds);
+          milestoneIssueIds = _.union(milestoneIssueIds, flatIds);
+          fringeIssueIds = [];
+        });
+
+      }
+
+      var userDependencies = _.filter(unfilteredModel.userDependencies, function(ud) { return _.contains(milestoneIssueIds, ud.issue);});
+
+      var filtered =  {
+        milestones : _.indexBy(_.filter(unfilteredModel.milestones, function(m) { return m.id === milestoneFilter;}), 'id'),
+        milestoneDependencies: filteredMilestoneDependencies,
+        issues: _.indexBy(_.filter(unfilteredModel.issues, function(i) { return _.contains(milestoneIssueIds, i.id);}), 'id'),
+        userDependencies: userDependencies,
+        indicationDependencies: _.filter(unfilteredModel.indicationDependencies, function(i) { return (_.contains(milestoneIssueIds, i.source) && _.contains(milestoneIssueIds, i.target));}),
+        users: unfilteredModel.users,
+      };
+      return _.extend(filtered);
     }
 
     function addIssues(data) {
@@ -30,10 +75,17 @@ angular.module('heinzelmannchen')
       broadcastUpdate();
     }
 
+    function setFilter(newFilter) {
+      filter = newFilter;
+      broadcastUpdate();
+    }
+
     return {
       add: addIssues,
       clear: clearAll,
       get: getAll,
-      removeIssuesForRepo: removeIssuesForRepo
-    }
+      removeIssuesForRepo: removeIssuesForRepo,
+      getFilteredModel: getFilteredModel,
+      setFilter: setFilter
+    };
   });
