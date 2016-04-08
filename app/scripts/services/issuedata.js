@@ -31,7 +31,7 @@ angular.module('heinzelmannchen')
       while(fringeIssueIds.length !== 0) {
         _.map(fringeIssueIds, function(fringeId) {
           var relatedIssues = _.map(unfilteredModel.indicationDependencies, function(dep) {
-            if(dep.source === fringeId || dep.target === fringeId) {
+            if(dep.source === fringeId) {
               return [dep.source, dep.target];
             }
           });
@@ -45,6 +45,7 @@ angular.module('heinzelmannchen')
       }
 
       var userDependencies = _.filter(unfilteredModel.userDependencies, function(ud) { return _.contains(milestoneIssueIds, ud.issue);});
+      var userKeys = _.pluck(userDependencies, 'user');
 
       var filtered =  {
         milestones :[],
@@ -52,7 +53,7 @@ angular.module('heinzelmannchen')
         issues: _.indexBy(_.filter(unfilteredModel.issues, function(i) { return _.contains(milestoneIssueIds, i.id);}), 'id'),
         userDependencies: userDependencies,
         indicationDependencies: _.filter(unfilteredModel.indicationDependencies, function(i) { return (_.contains(milestoneIssueIds, i.source) && _.contains(milestoneIssueIds, i.target));}),
-        users: unfilteredModel.users,
+        users: _.indexBy(_.filter(_.values(unfilteredModel.users), function(user) { return _.contains(userKeys, user.id); }), 'id')
       };
       return _.extend(filtered);
     }

@@ -12,7 +12,7 @@ angular.module('heinzelmannchen')
 
     function processIssues(issues) {
       var milestones = {};
-      var users = [];
+      var users = {};
       var milestoneDependencies = [];
       var userDependencies = [];
       var indicationDependencies = [];
